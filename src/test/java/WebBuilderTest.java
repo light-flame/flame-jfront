@@ -11,6 +11,7 @@ import io.lightflame.jfront.event.OnClick;
 import io.lightflame.jfront.style.Display;
 import io.lightflame.jfront.style.Style;
 import io.lightflame.jfront.output.ToFile;
+import io.lightflame.jfront.transpiler.Transpiler;
 import io.lightflame.jfront.transpiler.TranspilerV1;
 import org.junit.Test;
 
@@ -25,7 +26,7 @@ public class WebBuilderTest {
             .display(Display.NONE);
 
         Behavior showBehavior = new ShowBehavior();
-        Event onclickEvnt = new OnClick().behaviors(showBehavior, new AlertBehavior());
+        Event onclickEvnt = new OnClick().behaviors(showBehavior, new AlertBehavior("olaa"));
 
         Div olaDiv = new Div("ola");
         ComponentBuilder cb = new ComponentBuilder(
@@ -44,7 +45,7 @@ public class WebBuilderTest {
             .events(onclickEvnt);
         Html html = new Html(header, body);
 
-        TranspilerV1 transpilerV1 = new TranspilerV1();
+        Transpiler transpilerV1 = new TranspilerV1();
         String k = transpilerV1.process(html);
         ToFile.make("index.html", k);
     }

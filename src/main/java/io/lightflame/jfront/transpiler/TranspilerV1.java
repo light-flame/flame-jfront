@@ -1,6 +1,8 @@
 package io.lightflame.jfront.transpiler;
 
 import io.lightflame.jfront.ComponentBuilder;
+import io.lightflame.jfront.behavior.AlertBehavior;
+import io.lightflame.jfront.behavior.Behavior;
 import io.lightflame.jfront.component.*;
 import io.lightflame.jfront.event.Event;
 import io.lightflame.jfront.component.Html;
@@ -30,7 +32,7 @@ public class TranspilerV1 implements Transpiler {
     String jquery = String.format("<script src=\"%s\"></script>", header.getJquery());
     String style = String.format("<style>%s</style>", tStyles(header.getStyles()));
     String events = String.format("<script>$(document).ready(function(){%s});</script>", tEvents(header.getEvents()));
-    return String.format("<head>%s%s</head>", jquery, style);
+    return String.format("<head>%s%s%s</head>", jquery, style, events);
   }
 
   private String tStyles(List<Style> styles){
@@ -95,7 +97,21 @@ public class TranspilerV1 implements Transpiler {
   }
 
   private String transpile(OnClick event){
-    return "";
+    return String.format("$('.%s').click(function(){%s});", event.select().getGenStr(), tBehavior(event.getBehaviors()));
+  }
+
+  private String tBehavior(List<Behavior> behaviors){
+    String result = "";
+    for (Behavior behavior : behaviors){
+      if (behavior instanceof AlertBehavior){
+        result += transpile((AlertBehavior)behavior);
+      }
+    }
+    return result;
+  }
+
+  private String transpile(AlertBehavior alertBehavior){
+    return String.format("alert('%s');", alertBehavior.mensagem());
   }
 
   private String transpile(Text txt){
