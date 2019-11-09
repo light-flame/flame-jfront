@@ -15,4 +15,8 @@ public class Text implements BodyComponent {
   public BodyComponent addEvent(Event event) {
     return null;
   }
+
+  public String getText() {
+    return text;
+  }
 }
