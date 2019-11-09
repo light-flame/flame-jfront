@@ -2,6 +2,7 @@ package io.lightflame.jfront.component;
 
 
 import io.lightflame.jfront.event.Event;
+import io.lightflame.jfront.selector.Selectables;
 import io.lightflame.jfront.selector.Selector;
 
 import java.util.ArrayList;
@@ -22,17 +23,6 @@ public class Text implements BodyElement {
 
   private List<Event> events = new ArrayList<>();
 
-  @Override
-  public Text events(Event... evs) {
-    this.events = Arrays.asList(evs);
-    return this;
-  }
-
-  @Override
-  public List<Event> getEvents() {
-    return events;
-  }
-
   private List<Selector> selectors = new ArrayList<>();
 
   @Override
@@ -41,8 +31,11 @@ public class Text implements BodyElement {
   }
 
   @Override
-  public Text selectors(Selector... selectors) {
-    this.selectors = Arrays.asList(selectors);
+  public Text selectors(Selectables... selectable) {
+    for (Selectables s : selectable){
+      this.selectors.add(s.select());
+    }
     return this;
   }
+
 }

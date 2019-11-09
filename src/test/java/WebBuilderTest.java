@@ -1,14 +1,16 @@
 import io.lightflame.jfront.*;
-import io.lightflame.jfront.behavior.BehaviorShow;
+import io.lightflame.jfront.behavior.Behavior;
+import io.lightflame.jfront.behavior.AlertBehavior;
+import io.lightflame.jfront.behavior.ShowBehavior;
 import io.lightflame.jfront.component.Body;
 import io.lightflame.jfront.component.Div;
 import io.lightflame.jfront.component.Header;
 import io.lightflame.jfront.component.Html;
+import io.lightflame.jfront.event.Event;
 import io.lightflame.jfront.event.OnClick;
 import io.lightflame.jfront.style.Display;
 import io.lightflame.jfront.style.Style;
 import io.lightflame.jfront.output.ToFile;
-import io.lightflame.jfront.selector.Selector;
 import io.lightflame.jfront.transpiler.TranspilerV1;
 import org.junit.Test;
 
@@ -18,21 +20,28 @@ public class WebBuilderTest {
 
     @Test
     public void t1(){
-        Selector selector1 = new Selector();
+
+        Style hideStyle = new Style()
+            .display(Display.NONE);
+
+        Behavior showBehavior = new ShowBehavior();
+        Event onclickEvnt = new OnClick().behaviors(showBehavior, new AlertBehavior());
+
         Div olaDiv = new Div("ola");
         ComponentBuilder cb = new ComponentBuilder(
             olaDiv,
             olaDiv,
             new Div(
                 new Div("Isso esta escondido")
-            ).selectors(selector1),
-            new Div("clicar para exibir").events(new OnClick(new BehaviorShow(selector1)))
+            ).selectors(hideStyle, showBehavior),
+            new Div("clicar para exibir").selectors(onclickEvnt)
         );
 
-        Style hideStyle = new Style(selector1)
-            .display(Display.NONE);
+
         Body body = new Body(cb);
-        Header header = new Header(Arrays.asList(hideStyle));
+        Header header = new Header()
+            .styles(hideStyle)
+            .events(onclickEvnt);
         Html html = new Html(header, body);
 
         TranspilerV1 transpilerV1 = new TranspilerV1();

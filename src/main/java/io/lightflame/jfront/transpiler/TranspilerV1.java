@@ -29,13 +29,14 @@ public class TranspilerV1 implements Transpiler {
   private String transpile(Header header){
     String jquery = String.format("<script src=\"%s\"></script>", header.getJquery());
     String style = String.format("<style>%s</style>", tStyles(header.getStyles()));
+    String events = String.format("<script>$(document).ready(function(){%s});</script>", tEvents(header.getEvents()));
     return String.format("<head>%s%s</head>", jquery, style);
   }
 
   private String tStyles(List<Style> styles){
     String result = "";
     for (Style style : styles){
-      result += String.format(".%s{%s}", style.getSelector().getGenStr(), transpile(style));
+      result += String.format(".%s{%s}", style.select().getGenStr(), transpile(style));
     }
     return result;
   }
@@ -68,8 +69,7 @@ public class TranspilerV1 implements Transpiler {
     String name = div.getName() == null ? "" : String.format(" name=\"%s\"", div.getName());
     String selector =  transpile(div.getSelectors());
     String nameId = String.format("%s%s%s", id, name, selector);
-    String events = String.format("<script>$(document).ready(function(){%s});</script>", tEvents(div.getEvents()));
-    String tpl = String.format("<div%s>%s%s</div>", nameId, tBodyComponent(div.getContent()), tEvents(div.getEvents()));
+    String tpl = String.format("<div%s>%s</div>", nameId, tBodyComponent(div.getContent()));
     return tpl;
   }
 

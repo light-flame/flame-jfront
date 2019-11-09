@@ -2,6 +2,7 @@ package io.lightflame.jfront.component;
 
 
 import io.lightflame.jfront.event.Event;
+import io.lightflame.jfront.selector.Selectables;
 import io.lightflame.jfront.selector.Selector;
 
 import java.util.*;
@@ -50,16 +51,6 @@ public class Div implements BodyElement {
 
     private List<Event> events = new ArrayList<>();
 
-    @Override
-    public Div events(Event... evs) {
-        this.events = Arrays.asList(evs);
-        return this;
-    }
-
-    @Override
-    public List<Event> getEvents() {
-        return events;
-    }
 
     private List<Selector> selectors = new ArrayList<>();
 
@@ -69,8 +60,10 @@ public class Div implements BodyElement {
     }
 
     @Override
-    public Div selectors(Selector... selectors) {
-        this.selectors = Arrays.asList(selectors);
+    public Div selectors(Selectables... selectable) {
+        for (Selectables s : selectable){
+            this.selectors.add(s.select());
+        }
         return this;
     }
 }

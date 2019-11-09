@@ -1,8 +1,9 @@
 package io.lightflame.jfront.style;
 
+import io.lightflame.jfront.selector.Selectables;
 import io.lightflame.jfront.selector.Selector;
 
-public class Style {
+public class Style implements Selectables {
 
     private Selector selector;
     private Display display;
@@ -11,8 +12,12 @@ public class Style {
         this.selector = selector;
     }
 
+    public Style(){
+        this.selector = new Selector();
+    }
 
-    public Selector getSelector() {
+    @Override
+    public Selector select() {
         return selector;
     }
 
