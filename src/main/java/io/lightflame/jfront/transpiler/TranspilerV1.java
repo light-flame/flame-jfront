@@ -3,12 +3,16 @@ package io.lightflame.jfront.transpiler;
 import io.lightflame.jfront.ComponentBuilder;
 import io.lightflame.jfront.behavior.AlertBehavior;
 import io.lightflame.jfront.behavior.Behavior;
+import io.lightflame.jfront.behavior.ShowBehavior;
 import io.lightflame.jfront.component.*;
 import io.lightflame.jfront.event.Event;
 import io.lightflame.jfront.component.Html;
 import io.lightflame.jfront.event.OnClick;
 import io.lightflame.jfront.selector.Selector;
+import io.lightflame.jfront.style.BackgroundColor;
+import io.lightflame.jfront.style.Display;
 import io.lightflame.jfront.style.Style;
+import io.lightflame.jfront.style.StyleProperties;
 
 import java.util.List;
 
@@ -38,15 +42,30 @@ public class TranspilerV1 implements Transpiler {
   private String tStyles(List<Style> styles){
     String result = "";
     for (Style style : styles){
-      result += String.format(".%s{%s}", style.select().getGenStr(), transpile(style));
+      result += String.format(".%s{%s}", style.select().getGenStr(), propTranspile(style.getProperties()));
     }
     return result;
   }
 
-  private String transpile(Style style){
-    String display = style.getDisplay() == null ? "" :
-        String.format("display: %s;", style.getDisplay().toString().toLowerCase());
-    return String.format("%s", display);
+  private String propTranspile(List<StyleProperties> styleProperties){
+    StringBuilder result = new StringBuilder();
+    for (StyleProperties styleProp : styleProperties) {
+      if (styleProp instanceof Display){
+        result.append(transpile((Display) styleProp));
+      }
+      if (styleProp instanceof BackgroundColor){
+        result.append(transpile((BackgroundColor) styleProp));
+      }
+    }
+    return result.toString();
+  }
+
+  private String transpile(Display display){
+    return String.format("display: %s;", display.getDisplayKind().name().toLowerCase());
+  }
+
+  private String transpile(BackgroundColor backgroundColor){
+    return String.format("background-color: %s;", backgroundColor.getColor());
   }
 
   private String transpile(Body body){
@@ -101,13 +120,20 @@ public class TranspilerV1 implements Transpiler {
   }
 
   private String tBehavior(List<Behavior> behaviors){
-    String result = "";
+    StringBuilder result = new StringBuilder();
     for (Behavior behavior : behaviors){
       if (behavior instanceof AlertBehavior){
-        result += transpile((AlertBehavior)behavior);
+        result.append(transpile((AlertBehavior) behavior));
+      }
+      if (behavior instanceof ShowBehavior){
+        result.append(transpile((ShowBehavior) behavior));
       }
     }
-    return result;
+    return result.toString();
+  }
+
+  private String transpile(ShowBehavior showBehavior){
+    return String.format("$('.%s').show(%d);", showBehavior.select().getGenStr(), showBehavior.getVelocity());
   }
 
   private String transpile(AlertBehavior alertBehavior){

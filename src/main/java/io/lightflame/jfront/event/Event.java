@@ -9,6 +9,5 @@ import io.lightflame.jfront.selector.Selector;
 import java.util.List;
 
 public interface Event extends Selectables {
-    Event behaviors(Behavior... behaviors);
     List<Behavior> getBehaviors();
 }

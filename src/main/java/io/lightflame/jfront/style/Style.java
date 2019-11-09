@@ -3,17 +3,22 @@ package io.lightflame.jfront.style;
 import io.lightflame.jfront.selector.Selectables;
 import io.lightflame.jfront.selector.Selector;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Style implements Selectables {
 
     private Selector selector;
-    private Display display;
+    private List<StyleProperties> properties = new ArrayList<>();
 
     public Style(Selector selector){
         this.selector = selector;
     }
 
-    public Style(){
+    public Style(StyleProperties... styleProperties){
         this.selector = new Selector();
+        this.properties = Arrays.asList(styleProperties);
     }
 
     @Override
@@ -21,12 +26,7 @@ public class Style implements Selectables {
         return selector;
     }
 
-    public Style display(Display display){
-        this.display = display;
-        return this;
-    }
-
-    public Display getDisplay() {
-        return display;
+    public List<StyleProperties> getProperties() {
+        return properties;
     }
 }

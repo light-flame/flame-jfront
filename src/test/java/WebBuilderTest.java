@@ -8,6 +8,7 @@ import io.lightflame.jfront.component.Header;
 import io.lightflame.jfront.component.Html;
 import io.lightflame.jfront.event.Event;
 import io.lightflame.jfront.event.OnClick;
+import io.lightflame.jfront.style.BackgroundColor;
 import io.lightflame.jfront.style.Display;
 import io.lightflame.jfront.style.Style;
 import io.lightflame.jfront.output.ToFile;
@@ -22,11 +23,15 @@ public class WebBuilderTest {
     @Test
     public void t1(){
 
-        Style hideStyle = new Style()
-            .display(Display.NONE);
+        Style hideStyle = new Style(
+            new Display(Display.Kind.NONE),
+            new BackgroundColor("red")
+        );
 
-        Behavior showBehavior = new ShowBehavior();
-        Event onclickEvnt = new OnClick().behaviors(showBehavior, new AlertBehavior("olaa"));
+        Behavior showBehavior = new ShowBehavior(2000);
+        Event onclickEvnt = new OnClick(
+            showBehavior
+        );
 
         Div olaDiv = new Div("ola");
         ComponentBuilder cb = new ComponentBuilder(
