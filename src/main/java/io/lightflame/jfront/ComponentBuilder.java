@@ -1,6 +1,6 @@
 package io.lightflame.jfront;
 
-import io.lightflame.jfront.component.BodyComponent;
+import io.lightflame.jfront.component.BodyElement;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,14 +8,14 @@ import java.util.List;
 
 public class ComponentBuilder {
 
-  private List<BodyComponent> bodyComponents = new ArrayList<>();
+  private List<BodyElement> bodyComponents = new ArrayList<>();
 
-  public ComponentBuilder(BodyComponent... bcs) {
+  public ComponentBuilder(BodyElement... bcs) {
     bodyComponents.addAll(Arrays.asList(bcs));
   }
 
 
-  public List<BodyComponent> getBodyComponents() {
+  public List<BodyElement> getBodyComponents() {
     return bodyComponents;
   }
 }

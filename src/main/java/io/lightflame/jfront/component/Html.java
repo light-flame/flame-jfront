@@ -1,4 +1,4 @@
-package io.lightflame.jfront.main;
+package io.lightflame.jfront.component;
 
 import io.lightflame.jfront.component.Body;
 import io.lightflame.jfront.component.Header;

@@ -1,7 +1,7 @@
 package io.lightflame.jfront.transpiler;
 
 import io.lightflame.jfront.ComponentBuilder;
-import io.lightflame.jfront.main.Html;
+import io.lightflame.jfront.component.Html;
 
 public interface Transpiler {
   String process(ComponentBuilder webBuilder);

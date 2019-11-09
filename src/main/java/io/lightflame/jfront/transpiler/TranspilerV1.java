@@ -2,7 +2,10 @@ package io.lightflame.jfront.transpiler;
 
 import io.lightflame.jfront.ComponentBuilder;
 import io.lightflame.jfront.component.*;
-import io.lightflame.jfront.main.Html;
+import io.lightflame.jfront.event.Event;
+import io.lightflame.jfront.component.Html;
+import io.lightflame.jfront.event.OnClick;
+import io.lightflame.jfront.selector.Selector;
 import io.lightflame.jfront.style.Style;
 
 import java.util.List;
@@ -12,7 +15,7 @@ public class TranspilerV1 implements Transpiler {
 
   @Override
   public String process(ComponentBuilder componentBuilder) {
-    return transpile(componentBuilder.getBodyComponents());
+    return tBodyComponent(componentBuilder.getBodyComponents());
   }
 
   @Override
@@ -44,12 +47,12 @@ public class TranspilerV1 implements Transpiler {
   }
 
   private String transpile(Body body){
-    return String.format("<body>%s</body>",transpile(body.getBodyComponents()));
+    return String.format("<body>%s</body>",tBodyComponent(body.getBodyComponents()));
   }
 
-  private String transpile(List<BodyComponent> bcs){
+  private String tBodyComponent(List<BodyElement> bcs){
     String result = "";
-    for (BodyComponent bc : bcs){
+    for (BodyElement bc : bcs){
       if (bc instanceof Div){
         result += transpile((Div)bc);
       }
@@ -63,10 +66,36 @@ public class TranspilerV1 implements Transpiler {
   private String transpile(Div div){
     String id = div.getId() == null ? "" : String.format(" id=\"%s\" ", div.getId());
     String name = div.getName() == null ? "" : String.format(" name=\"%s\"", div.getName());
-    String selector = div.getSelector() == null ? "" : String.format(" class=\"%s\"", div.getSelector().getGenStr());
+    String selector =  transpile(div.getSelectors());
     String nameId = String.format("%s%s%s", id, name, selector);
-    String tpl = String.format("<div%s>%s</div>", nameId, transpile(div.getContent()));
+    String events = String.format("<script>$(document).ready(function(){%s});</script>", tEvents(div.getEvents()));
+    String tpl = String.format("<div%s>%s%s</div>", nameId, tBodyComponent(div.getContent()), tEvents(div.getEvents()));
     return tpl;
+  }
+
+  private String tEvents(List<Event> events){
+    String result = "";
+    for (Event event : events){
+      if (event instanceof OnClick){
+        result += transpile((OnClick)event);
+      }
+    }
+    return result;
+  }
+
+  private String transpile(List<Selector> selectors){
+    if (selectors.size() == 0){
+      return "";
+    }
+    String result = "";
+    for (Selector selector : selectors){
+      result += selector.getGenStr() + " ";
+    }
+    return String.format(" class=\"%s\"", result.trim());
+  }
+
+  private String transpile(OnClick event){
+    return "";
   }
 
   private String transpile(Text txt){

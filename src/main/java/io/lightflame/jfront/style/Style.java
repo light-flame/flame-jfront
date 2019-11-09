@@ -7,13 +7,10 @@ public class Style {
     private Selector selector;
     private Display display;
 
-    private Style(Selector selector){
+    public Style(Selector selector){
         this.selector = selector;
     }
 
-    static public Style ofSelector(Selector s){
-        return new Style(s);
-    }
 
     public Selector getSelector() {
         return selector;

@@ -7,13 +7,13 @@ import java.util.List;
 
 public class Body {
 
-    List<BodyComponent> bodyComponents = new ArrayList<>();
+    List<BodyElement> bodyComponents = new ArrayList<>();
 
     public Body(ComponentBuilder builder){
         bodyComponents = builder.getBodyComponents();
     }
 
-    public List<BodyComponent> getBodyComponents() {
+    public List<BodyElement> getBodyComponents() {
         return bodyComponents;
     }
 }

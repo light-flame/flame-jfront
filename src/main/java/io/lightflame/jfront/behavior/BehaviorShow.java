@@ -1,6 +1,5 @@
 package io.lightflame.jfront.behavior;
 
-import io.lightflame.jfront.component.BodyComponent;
 import io.lightflame.jfront.selector.Selector;
 
 public class BehaviorShow implements Behavior {

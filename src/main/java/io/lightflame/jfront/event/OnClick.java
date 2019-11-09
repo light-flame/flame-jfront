@@ -13,9 +13,4 @@ public class OnClick implements Event {
   public OnClick(Behavior... bhs) {
     behaviors.addAll(Arrays.asList(bhs));
   }
-
-  @Override
-  public EventKind kind() {
-    return EventKind.ON_CLICK;
-  }
 }

@@ -1,24 +1,22 @@
 package io.lightflame.jfront.component;
 
+
 import io.lightflame.jfront.event.Event;
-import io.lightflame.jfront.event.EventKind;
 import io.lightflame.jfront.selector.Selector;
 
 import java.util.*;
 
-public class Div implements BodyComponent {
+public class Div implements BodyElement {
 
     private String id;
     private String name;
-    private List<BodyComponent> content = new ArrayList<>();
-    private Map<EventKind, Event> eventMap = new HashMap<>();
-    private Selector selector;
+    private List<BodyElement> content = new ArrayList<>();
 
     public Div(String text) {
         this.content.add(new Text(text));
     }
 
-    public Div(BodyComponent... components) {
+    public Div(BodyElement... components) {
         this.content = Arrays.asList(components);
     }
 
@@ -27,23 +25,12 @@ public class Div implements BodyComponent {
         return this;
     }
 
-    public Div addSelector(Selector s){
-        this.selector = s;
-        return this;
-    }
-
-    @Override
-    public Div addEvent(Event event) {
-        eventMap.put(event.kind(), event);
-        return this;
-    }
-
-    public BodyComponent setName(String selectorName) {
+    public BodyElement setName(String selectorName) {
         this.name = name;
         return this;
     }
 
-    public BodyComponent setId(String selectorId) {
+    public BodyElement setId(String selectorId) {
         this.id = id;
         return this;
     }
@@ -56,11 +43,34 @@ public class Div implements BodyComponent {
         return id;
     }
 
-    public Selector getSelector() {
-        return selector;
+
+    public List<BodyElement> getContent() {
+        return content;
     }
 
-    public List<BodyComponent> getContent() {
-        return content;
+    private List<Event> events = new ArrayList<>();
+
+    @Override
+    public Div events(Event... evs) {
+        this.events = Arrays.asList(evs);
+        return this;
+    }
+
+    @Override
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    private List<Selector> selectors = new ArrayList<>();
+
+    @Override
+    public List<Selector> getSelectors() {
+        return selectors;
+    }
+
+    @Override
+    public Div selectors(Selector... selectors) {
+        this.selectors = Arrays.asList(selectors);
+        return this;
     }
 }
