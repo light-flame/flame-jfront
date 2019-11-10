@@ -1,19 +1,25 @@
 package io.lightflame.jfront.component;
 
-import io.lightflame.jfront.ComponentBuilder;
+import io.lightflame.jfront.Transpilable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class Body {
+public class Body implements Transpilable {
 
-    List<BodyElement> bodyComponents = new ArrayList<>();
+    List<BodyElement> bodyElements = new ArrayList<>();
 
-    public Body(ComponentBuilder builder){
-        bodyComponents = builder.getBodyComponents();
+    public Body(BodyElement... bcs) {
+        bodyElements.addAll(Arrays.asList(bcs));
     }
 
-    public List<BodyElement> getBodyComponents() {
-        return bodyComponents;
+    @Override
+    public String transpile() {
+        String result = "";
+        for (BodyElement bodyElement : bodyElements){
+            result += bodyElement.transpile();
+        }
+        return result;
     }
 }

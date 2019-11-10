@@ -1,13 +1,12 @@
 package io.lightflame.jfront.component;
 
-
-import io.lightflame.jfront.event.Event;
+import io.lightflame.jfront.selector.HasSelectors;
 import io.lightflame.jfront.selector.Selectables;
 import io.lightflame.jfront.selector.Selector;
 
 import java.util.*;
 
-public class Div implements BodyElement {
+public class Div implements BodyElement, HasSelectors {
 
     private String id;
     private String name;
@@ -36,20 +35,6 @@ public class Div implements BodyElement {
         return this;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-
-    public List<BodyElement> getContent() {
-        return content;
-    }
-
-    private List<Event> events = new ArrayList<>();
 
 
     private List<Selector> selectors = new ArrayList<>();
@@ -65,5 +50,10 @@ public class Div implements BodyElement {
             this.selectors.add(s.select());
         }
         return this;
+    }
+
+    @Override
+    public String transpile() {
+        return String.format("<div></div>");
     }
 }

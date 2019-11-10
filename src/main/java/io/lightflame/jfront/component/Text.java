@@ -1,7 +1,7 @@
 package io.lightflame.jfront.component;
 
 
-import io.lightflame.jfront.event.Event;
+import io.lightflame.jfront.selector.HasSelectors;
 import io.lightflame.jfront.selector.Selectables;
 import io.lightflame.jfront.selector.Selector;
 
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Text implements BodyElement {
+public class Text implements BodyElement, HasSelectors {
 
   private String text;
 
@@ -21,7 +21,6 @@ public class Text implements BodyElement {
     return text;
   }
 
-  private List<Event> events = new ArrayList<>();
 
   private List<Selector> selectors = new ArrayList<>();
 
@@ -38,4 +37,8 @@ public class Text implements BodyElement {
     return this;
   }
 
+  @Override
+  public String transpile() {
+    return text;
+  }
 }

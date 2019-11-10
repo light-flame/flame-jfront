@@ -1,5 +1,6 @@
 package io.lightflame.jfront.style;
 
+import io.lightflame.jfront.Transpilable;
 import io.lightflame.jfront.selector.Selectables;
 import io.lightflame.jfront.selector.Selector;
 
@@ -7,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Style implements Selectables {
+public class Style implements Selectables, Transpilable {
 
     private Selector selector;
     private List<StyleProperties> properties = new ArrayList<>();
@@ -28,5 +29,10 @@ public class Style implements Selectables {
 
     public List<StyleProperties> getProperties() {
         return properties;
+    }
+
+    @Override
+    public String transpile() {
+        return null;
     }
 }

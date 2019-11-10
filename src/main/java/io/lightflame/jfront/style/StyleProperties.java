@@ -1,4 +1,6 @@
 package io.lightflame.jfront.style;
 
-public interface StyleProperties {
+import io.lightflame.jfront.Transpilable;
+
+public interface StyleProperties extends Transpilable {
 }
